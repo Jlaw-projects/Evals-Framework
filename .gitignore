@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+.tools/
+.uv-cache/
+.uv-python/
+
+# Local configuration
+.env
+
+# Local databases
+redteam_benchmark.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated reports and charts
+reports/*
+!reports/example_report.md
+!reports/README.md

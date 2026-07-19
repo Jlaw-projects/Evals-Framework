@@ -1,0 +1,80 @@
+name: Quality and packaging
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install locked runtime and quality tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.lock
+          python -m pip install --no-deps -e .
+          python -m pip install build mypy pytest pytest-cov ruff
+      - name: Ruff lint
+        run: python -m ruff check .
+      - name: Ruff format
+        run: python -m ruff format --check .
+      - name: Type check
+        run: python -m mypy src
+      - name: Tests and coverage
+        run: python -m pytest --cov=redteam_benchmark --cov-report=term-missing --cov-fail-under=80
+      - name: Validate fixed suites
+        run: |
+          redteam validate-suite src/redteam_benchmark/datasets/suites/safety_core_2_0_0.json
+          redteam validate-suite src/redteam_benchmark/datasets/suites/assistant_policy_core_2_0_0.json
+          redteam validate-suite src/redteam_benchmark/datasets/suites/assistant_policy_stress_safe_2_0_0.json
+      - name: Validate evaluator development and calibration splits
+        run: |
+          redteam validate-evaluator-dataset --split development
+          redteam validate-evaluator-dataset --split calibration
+      - name: Deterministic evaluator promotion smoke test
+        run: redteam calibrate-judge --split calibration --output-dir reports/ci-calibration
+      - name: CLI smoke test
+        run: |
+          redteam list-suites
+          redteam list-components
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Build wheel and source distribution
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build
+      - name: Install wheel in a clean environment
+        run: |
+          python -m venv /tmp/redteam-wheel-smoke
+          /tmp/redteam-wheel-smoke/bin/python -m pip install dist/*.whl
+          /tmp/redteam-wheel-smoke/bin/redteam list-suites
+          /tmp/redteam-wheel-smoke/bin/redteam validate-evaluator-dataset --split calibration
+          /tmp/redteam-wheel-smoke/bin/redteam db upgrade --database-url sqlite:////tmp/redteam-wheel-smoke.db
+      - name: Validate packaged resources
+        run: |
+          /tmp/redteam-wheel-smoke/bin/python -c "from importlib import resources; from redteam_benchmark.calibration import load_evaluator_dataset; assert load_evaluator_dataset().examples; assert resources.files('redteam_benchmark.migrations').joinpath('env.py').is_file()"
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build production image
+        run: docker build --tag llm-evaluation-platform:test .

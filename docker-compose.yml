@@ -1,0 +1,26 @@
+services:
+  api:
+    build: .
+    env_file: .env
+    environment:
+      REDTEAM_DATABASE_URL: sqlite:////data/redteam_benchmark.db
+      REDTEAM_REPORT_DIR: /app/reports
+    ports:
+      - "8080:8080"
+    volumes:
+      - redteam-data:/data
+      - ./reports:/app/reports
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=10)",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  redteam-data:

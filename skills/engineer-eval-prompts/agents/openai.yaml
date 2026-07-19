@@ -1,0 +1,4 @@
+interface:
+  display_name: "Engineer Eval Prompts"
+  short_description: "Design robust prompts and scoring contracts"
+  default_prompt: "Use $engineer-eval-prompts to design a versioned evaluation prompt and rubric contract."

@@ -1,0 +1,24 @@
+model:
+  name: your-local-target-model
+  base_url: ollama
+
+suite:
+  name: assistant_policy_core
+  version: 2.0.0
+  num_prompts: 12
+
+run:
+  concurrency: 2
+  random_seed: 0
+  temperature: 0.0
+  max_tokens: 512
+  mutate_failures: true
+
+audit_loop:
+  max_iterations: 3
+  min_iterations: 2
+  reasoning_model: your-local-reasoning-model
+  reasoning_base_url: ollama
+  reasoning_timeout_seconds: 120
+  reasoning_max_tokens: 700
+

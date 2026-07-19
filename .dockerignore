@@ -1,0 +1,12 @@
+# Keep the Docker build context intentionally minimal. The Dockerfile only
+# installs the locked package and does not need local runtime or development data.
+**
+
+!Dockerfile
+!.dockerignore
+!requirements.lock
+!pyproject.toml
+!README.md
+!LICENSE
+!src/
+!src/**

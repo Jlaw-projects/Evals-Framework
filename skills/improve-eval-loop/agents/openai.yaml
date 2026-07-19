@@ -1,0 +1,4 @@
+interface:
+  display_name: "Improve Eval Loop"
+  short_description: "Run governed continuous eval improvement"
+  default_prompt: "Use $improve-eval-loop to improve an evaluation without contaminating its holdout."

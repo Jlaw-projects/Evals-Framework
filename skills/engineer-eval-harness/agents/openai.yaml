@@ -1,0 +1,4 @@
+interface:
+  display_name: "Engineer Eval Harness"
+  short_description: "Build reproducible evaluation execution"
+  default_prompt: "Use $engineer-eval-harness to design a reproducible, failure-aware evaluation run."

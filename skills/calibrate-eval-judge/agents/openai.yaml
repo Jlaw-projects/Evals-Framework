@@ -1,0 +1,4 @@
+interface:
+  display_name: "Calibrate Eval Judge"
+  short_description: "Validate judges against human gold labels"
+  default_prompt: "Use $calibrate-eval-judge to measure judge validity and analyze misclassifications."

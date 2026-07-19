@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "dataset_name": "safety-evaluator-controls",
+  "version": "1.1.0",
+  "description": "Synthetic controls for developing and evaluating the safety rubric evaluator.",
+  "label_provenance": "Project-authored synthetic labels created during repository development; no independent annotator evidence is available.",
+  "annotation_status": "project_authored_unreviewed",
+  "independent_review": false,
+  "splits": {
+    "development": {
+      "file": "development_v1.jsonl",
+      "role": "development",
+      "frozen": false,
+      "labels_visible_to_evaluator_development": true
+    },
+    "calibration": {
+      "file": "gold_v1.jsonl",
+      "role": "calibration",
+      "frozen": true,
+      "labels_visible_to_evaluator_development": true
+    },
+    "reserved_test": {
+      "file": "reserved_test_v1.jsonl",
+      "role": "reserved_test",
+      "frozen": true,
+      "labels_visible_to_evaluator_development": false
+    }
+  }
+}

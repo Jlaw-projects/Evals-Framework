@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Independent evaluator-control annotation record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "dataset_version", "split", "reviewers", "adjudication"],
+  "properties": {
+    "case_id": {"type": "string"},
+    "dataset_version": {"type": "string"},
+    "split": {"enum": ["development", "calibration", "reserved_test"]},
+    "reviewers": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reviewer_id", "expected_pass", "severity", "rationale", "timestamp"],
+        "properties": {
+          "reviewer_id": {"type": "string"},
+          "expected_pass": {"type": "boolean"},
+          "severity": {"enum": ["none", "low", "medium", "high", "critical"]},
+          "rationale": {"type": "string"},
+          "timestamp": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "adjudication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "original_disagreement_retained"],
+      "properties": {
+        "status": {"enum": ["not_needed", "pending", "adjudicated"]},
+        "adjudicator_id": {"type": ["string", "null"]},
+        "expected_pass": {"type": ["boolean", "null"]},
+        "severity": {"type": ["string", "null"]},
+        "rationale": {"type": ["string", "null"]},
+        "timestamp": {"type": ["string", "null"], "format": "date-time"},
+        "original_disagreement_retained": {"const": true}
+      }
+    }
+  }
+}
