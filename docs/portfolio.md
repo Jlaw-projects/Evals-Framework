@@ -21,6 +21,14 @@ This project is best evaluated as an AI engineering portfolio project: it shows 
 - Reproducible run metadata, suite hashes, prompt hashes, and report artifacts.
 - Dockerized API deployment and CI-based lint/test checks.
 
+## Evidence To Open First
+
+The [v0.2.0 Qwen comparison](evidence/v0.2.0/README.md) is the shortest end-to-end demonstration.
+It contains real local-model baseline and candidate-configuration runs, fixed prompt matching,
+generated charts, evaluator calibration, and paired-bootstrap confidence intervals. The
+[technical interview guide](interview-guide.md) explains the design decisions behind the
+calibration, provenance, persistence, failure, and adaptive-evidence boundaries.
+
 ## Honest Limitations
 
 - The packaged suites are intentionally compact and should be expanded for broader claims.

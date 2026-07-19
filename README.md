@@ -1,5 +1,6 @@
 # LLM Evaluation and Safety Regression Reference
 
+[![Quality and packaging](https://github.com/Jlaw-projects/Evals-Framework/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Jlaw-projects/Evals-Framework/actions/workflows/tests.yml)
 ![Python 3.11 and 3.12](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 ![Calibration workflow included](https://img.shields.io/badge/calibration-workflow%20included-purple)
@@ -144,6 +145,25 @@ The important lesson is that evaluator errors can dominate a small benchmark. An
 model run is not credible evidence until the evaluator, dataset role, process health, and
 provenance are also inspectable.
 
+## Real Baseline-versus-Candidate Evidence
+
+The [v0.2.0 Qwen evidence package](docs/evidence/v0.2.0/README.md) compares two real local
+`qwen2.5:3b` generation configurations against the same 12 fixed prompt hashes. It includes the
+complete baseline and candidate reports, generated chart screenshots, evaluator calibration,
+and paired-bootstrap confidence intervals. The candidate mean-score delta was `-0.67` with a
+95% interval of `-2.67` to `+0.58`; the wide interval is reported rather than hidden behind the
+aggregate mean.
+
+## What I Built And Learned
+
+I built this project to understand what makes an LLM evaluation trustworthy beyond simply
+calling a model and averaging scores. The biggest lesson for me was that evaluator failures,
+missing provenance, and database transaction boundaries can change the meaning of a result just
+as much as the target model can. I learned to keep fixed and adaptive evidence separate, treat
+infrastructure errors as unevaluable instead of unsafe, and make release decisions depend on
+reproducible evidence. I also learned to be explicit about limitations: this is a strong
+engineering reference and portfolio project, but it is not an independent safety certification.
+
 ## Components and Authority
 
 Names such as `RedTeamJudgeAgent`, `BlueTeamJudgeAgent`, and `AuditorJudgeAgent` are retained for
@@ -161,6 +181,7 @@ Read the design records:
 - [Architecture](docs/architecture.md)
 - [Agent engineering](docs/agent-engineering.md)
 - [Operations guide](docs/operations.md)
+- [Technical interview guide](docs/interview-guide.md)
 
 ## Verification
 
@@ -168,12 +189,12 @@ CI enforces Python 3.11 and 3.12, Ruff lint/format, mypy, the complete test suit
 coverage, suite and evaluator-dataset validation, deterministic promotion smoke testing, wheel
 and source-distribution builds, clean-wheel resource/migration smoke tests, and Docker build.
 
-Local verification snapshot (2026-07-17, Python 3.12):
+Local verification snapshot (2026-07-19, Python 3.12):
 
 | Check | Result |
 | --- | --- |
-| Pytest | 134 passed |
-| Branch-aware coverage | 80.69% (80% gate) |
+| Pytest | 149 passed |
+| Branch-aware coverage | 81.26% (80% gate) |
 | Ruff lint / format | Passed / passed |
 | Mypy | Passed, 49 source files |
 | Development / calibration validation | Valid / valid; annotation warning retained |
