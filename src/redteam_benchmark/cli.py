@@ -7,10 +7,10 @@ from pathlib import Path
 from typing import Annotated
 
 import typer
+from alembic import command
 from alembic.config import Config as AlembicConfig
 from sqlalchemy.orm import Session, sessionmaker
 
-from alembic import command
 from redteam_benchmark.agents.audit_loop_agent import AuditLoopAgent, AuditLoopConfig
 from redteam_benchmark.agents.judge_agent import JudgeAgent
 from redteam_benchmark.agents.report_agent import ReportAgent
