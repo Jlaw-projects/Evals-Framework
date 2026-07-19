@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this benchmark in research or internal evaluation reports, please cite it."
 title: "Agentic LLM Red Team Benchmark"
 version: "0.2.0"
-date-released: "2026-07-17"
+date-released: "2026-07-19"
 license: "MIT"
 authors:
   - name: "Agentic LLM Red Team Benchmark Contributors"
