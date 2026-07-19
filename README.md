@@ -193,7 +193,7 @@ Local verification snapshot (2026-07-19, Python 3.12):
 
 | Check | Result |
 | --- | --- |
-| Pytest | 149 passed |
+| Pytest | 150 passed |
 | Branch-aware coverage | 81.26% (80% gate) |
 | Ruff lint / format | Passed / passed |
 | Mypy | Passed, 49 source files |
